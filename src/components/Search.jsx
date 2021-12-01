@@ -1,21 +1,23 @@
-import React from 'react'
 
-function Search(props) {
+import React, { Component } from 'react'
+
+class Search extends Component {
 
     /*
     props will look like this
     
-        props = {
+        this.props = {
             btnSearch: Function
         }
 
     */
-
-    return (
-        <div>
-            <input onChange={props.btnSearch} type="text" placeholder="Search book"/>
-        </div>
-    )
+    render() {
+        return (
+            <div>
+                <input onChange={this.props.btnSearch} type="text" placeholder="Search book"/>
+            </div>
+        )
+    }
 }
 
 export default Search

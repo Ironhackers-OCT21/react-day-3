@@ -1,25 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
 import ItemDetail from './components/ItemDetail';
 import booksJson from './books.json'
-import {useState} from 'react'
 import Total from './components/Total'
 import AddForm from './components/AddForm';
 import Search from './components/Search';
 
-function App() {
-  // A state that keeps track of our original books
-  const [books, setBooks] = useState(booksJson)
-  // A state that keeps track of our books that we show to the user with/wo filter
-  const [booksCopy, setBooksCopy] = useState(booksJson)
-  // A state to stor information about the checkout books cart
-  const [checkoutData, setCheckout] = useState([])
-   // A state to decide whether to show the AddFrom or not
-  const [showForm, setShowForm] = useState(false)
-  
+import React, { Component } from 'react'
+
+class App extends Component {
+
+  state = {
+    books: booksJson, // A state that keeps track of our original books
+    booksCopy: booksJson, // A state that keeps track of our books that we show to the user with/wo filter
+    checkoutData: [], // A state to stor information about the checkout books cart
+    showForm: false,  // A state to decide whether to show the AddFrom or not
+
+  }
+
   // This function is used to handle click event on the `Add` button
   // We pass this as a prop to <ItemDetail> and invoke it when the button is clicked
-  function handleClick(book, quantity){
+  handleClick = (book, quantity) => {
     console.log('Click works')
     // Create our checkout book object with quantity
     let checkoutBook = {
@@ -29,17 +29,21 @@ function App() {
     }
 
     //updating the state
-    setCheckout([checkoutBook, ...checkoutData])
+    this.setState({
+      checkoutData: [checkoutBook, ...this.state.checkoutData],
+    })
   }
 
   // This function is used to handle flag to show/hide the AddForm
-  function handleToggle(){
-    setShowForm(!showForm)
+  handleToggle = () => {
+    this.setState({
+      showForm: !this.state.showForm
+    })
   }
-  
-  // This function is used to handle the AddForm 'submit' event
+
+   // This function is used to handle the AddForm 'submit' event
   // we pass this function as a props to the <AddForm> component below
-  function handleSubmit(event){
+  handleSubmit = (event) => {
 
     // Prevent the default behaviour of <form>
     // Remeber that they make a GET request with query by default
@@ -55,32 +59,41 @@ function App() {
       img: event.target.image.value
     }
 
-    setBooks([newBook, ...books])
-    setBooksCopy([newBook, ...books])
-    //hide the form once we have added the item
-    setShowForm(false)
-  }  
+    this.setState({
+      books: [newBook, ...this.state.books],
+      booksCopy: [newBook, ...this.state.books],
+      showForm: false
+    })
 
+  } 
 
-  function handleSearch(event){
+  handleSearch = (event) => {
     // even.target              -> gives the <<input>
     // event.target.value       -> gives the value of that input
     let word = event.target.value
-    let filteredBooks = books.filter((book) => {
+    let filteredBooks = this.state.books.filter((book) => {
       return book.title.includes(word)
     })
     
     // IMPORTANT: Here we only update copy that we create and not the original books state
-    setBooksCopy(filteredBooks)
+    this.setState({
+      booksCopy: filteredBooks,
+    })
   }
 
-  return (
-    <div class="columns">
+  render() {
+    // -------------------------------------------------
+    //           Destructuring our state
+    const {booksCopy, showForm, checkoutData} = this.state
+    // -------------------------------------------------
+
+    return (
+      <div class="columns">
       <div class="column">
-        <Search btnSearch={handleSearch}/>
+        <Search btnSearch={this.handleSearch}/>
         {/* Conditional rendering the button and the form */}
         {
-          showForm ? <AddForm btnSubmit={handleSubmit}/> : <button onClick={handleToggle}>Show Form</button>
+          showForm ? <AddForm btnSubmit={this.handleSubmit}/> : <button onClick={this.handleToggle}>Show Form</button>
         }
         {/* Showing th list of books below */}
         {
@@ -88,7 +101,7 @@ function App() {
             return <ItemDetail 
                       key={i} 
                       book={elem} 
-                      btnClick={handleClick}
+                      btnClick={this.handleClick}
                     />
           })
         }
@@ -98,7 +111,8 @@ function App() {
           <Total checkoutData={checkoutData} />
       </div>
     </div>
-  );
+    )
+  }
 }
 
 export default App;
