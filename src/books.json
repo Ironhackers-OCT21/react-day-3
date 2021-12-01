@@ -1,0 +1,27 @@
+[
+    {
+      "title": "You don't know JS",
+      "price": 15,
+      "img": "https://images-na.ssl-images-amazon.com/images/I/71mKvD89oEL.jpg"
+    },
+    {
+      "title": "Eloquent JS",
+      "price": 29.45, 
+      "img": "https://images-na.ssl-images-amazon.com/images/I/91asIC1fRwL.jpg"
+    },
+    {
+      "title": "JS the good parts",
+      "price": 18.95, 
+      "img": "https://images-na.ssl-images-amazon.com/images/I/5131OWtQRaL._SX381_BO1,204,203,200_.jpg"
+    },
+    {
+      "title": "JS ninja",
+      "price": 17.68, 
+      "img": "https://images-na.ssl-images-amazon.com/images/I/71OcrNWJv3L.jpg"
+    },
+    {
+      "title": "Pure JavaScript",
+      "price": 17.11, 
+      "img": "https://images-na.ssl-images-amazon.com/images/I/41PCTHQ9WML._SX315_BO1,204,203,200_.jpg"
+    }
+  ]
